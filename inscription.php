@@ -13,6 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mdp = $_POST['mdp'] ?? null;
     $mdp_hash = password_hash($mdp, PASSWORD_DEFAULT);
 
+    // l'autoincrement est pas dans la base (yes) donc j'incrémente comme un porc
+    $lastIdQuery = $bdd->query('SELECT MAX(IdU) AS max_id FROM utilisateurs');
+    $lastIdResult = $lastIdQuery->fetch();
+    $newId = $lastIdResult['max_id'] + 1;
+
     // On prépare la requête  en vérifiant que les champs sont remplis et que le pseudo n'existe pas déjà
     $checkUser = $bdd->prepare('SELECT * FROM utilisateurs WHERE NomU = ? OR PrenomU = ?');
     $checkUser->execute([$nom, $prenom]);
@@ -23,18 +28,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['error_message'] = "Nom ou prénom déjà utilisé !";
         exit();
     } else {
-        $insertUser = $bdd->prepare('INSERT INTO utilisateurs (NomU, PrenomU, MotDePAsseU) VALUES (?, ?, ?)');
-        $insertUser->execute([$nom, $prenom, $mdp_hash]);
+        $insertUser = $bdd->prepare('INSERT INTO utilisateurs (IdU, NomU, PrenomU, MotDePAsseU) VALUES (?, ?, ?, ?)');
+        $insertUser->execute([$newId, $nom, $prenom, $mdp_hash]);
 
         $_SESSION['success_message'] = "Enregistré avec succès !";
-        header("Location: connexion.php");
+        header("Location: Connexionbdd.php");
         exit();
     }
 }
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
