@@ -3,7 +3,7 @@
 <head>
  <link href="style.css" rel="stylesheet" media="all" type="text/css">
  <meta charset="UTF-8">
- <title>Marmitez ! </title>
+ <title>feur </title>
 </head>
 <body>
 <h1>Connexion à la base de données</h1>
@@ -26,3 +26,5 @@ if ( $mysqli->connect_errno ) {
 ?>
 </body>
 </html> 
+
+
