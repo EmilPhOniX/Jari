@@ -1,28 +1,40 @@
 <?php
+session_start();
+try {
+    $bdd = new PDO('mysql:host=localhost;dbname=projetsql;charset=utf8mb4', 'root', '');
+    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (Exception $e) {
+    die('Erreur : ' . $e->getMessage());
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupérer les valeurs du formulaire
+    $nom = $_POST['nom'] ?? null;
+    $prenom = $_POST['prenom'] ?? null;
+    $mdp = $_POST['mdp'] ?? null;
+    $mdp_hash = password_hash($mdp, PASSWORD_DEFAULT);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
-    $pseudo = $_POST['pseudo'];
-    $email = $_POST['email'];
-    $mdp = $_POST['mdp'];
-    
-    if ($pseudo && $email && $mdp) {
-        $mdp_hash = password_hash($mdp, PASSWORD_DEFAULT);
-        
-        $stnt = $bdd->prepare('INSERT INTO USERS (pseudo, mail, mdp) VALUES (?, ?, ?)');
-        $stnt->bindParam(1, $pseudo, PDO::PARAM_STR);
-        $stnt->bindParam(2, $email, PDO::PARAM_STR);
-        $stnt->bindParam(3, $mdp_hash, PDO::PARAM_STR);
-        
-        $stnt->execute();
+    // On prépare la requête  en vérifiant que les champs sont remplis et que le pseudo n'existe pas déjà
+    $checkUser = $bdd->prepare('SELECT * FROM utilisateurs WHERE NomU = ? OR PrenomU = ?');
+    $checkUser->execute([$nom, $prenom]);
+    $userExists = $checkUser->fetch();
+
+    if ($userExists) {
+        header("Location: inscription.php?error=pseudo_used");
+        $_SESSION['error_message'] = "Nom ou prénom déjà utilisé !";
+        exit();
+    } else {
+        $insertUser = $bdd->prepare('INSERT INTO utilisateurs (NomU, PrenomU, MotDePAsseU) VALUES (?, ?, ?)');
+        $insertUser->execute([$nom, $prenom, $mdp_hash]);
 
         $_SESSION['success_message'] = "Enregistré avec succès !";
         header("Location: connexion.php");
         exit();
-    } else {
-        echo "Il manque des paramètres !"; 
-    } 
+    }
 }
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -37,12 +49,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
     <div class="container">
         <h1>Inscription</h1>
         <form action="" method="post">
-            <input type="text" name="pseudo" placeholder="Pseudo" required>
-            <input type="email" name="email" placeholder="Adresse e-mail" required>
+            <input type="text" name="nom" placeholder="Nom" required>
+            <input type="text" name="prenom" placeholder="Prénom" required>
+
             <?php
-				if (isset($_GET['error']) && $_GET['error'] == 'pseudo_used') {
-		    		echo '<div id="erreur">Pseudo ou email dejà utilisé !</div>';
-				}
+            if (isset($_SESSION['error_message'])) {
+                echo '<div class="error">' . $_SESSION['error_message'] . '</div>';
+                unset($_SESSION['error_message']);
+            }
+
+            if (isset($_SESSION['success_message'])) {
+                echo '<div class="success">' . $_SESSION['success_message'] . '</div>';
+                unset($_SESSION['success_message']);
+            }
 			?>
             <input type="password" name="mdp" placeholder="Mot de passe" required>
             <input type="submit" name="envoyer" value="S'inscrire">
@@ -51,3 +70,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
     </div>
 </body>
 </html>
+
+
