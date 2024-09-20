@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 20 sep. 2024 à 08:13
+-- Généré le : ven. 20 sep. 2024 à 14:58
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -29,8 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `equipesprj` (
   `IdEq` smallint(11) NOT NULL,
-  `NomEqPrj` int(11) NOT NULL,
-  `VelociteEqPrj` decimal(10,0) NOT NULL
+  `NomEq` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -41,14 +40,14 @@ CREATE TABLE `equipesprj` (
 
 CREATE TABLE `etatstaches` (
   `IdEtat` smallint(4) NOT NULL,
-  `Etat` varchar(50) NOT NULL
+  `DescEtat` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `etatstaches`
 --
 
-INSERT INTO `etatstaches` (`IdEtat`, `Etat`) VALUES
+INSERT INTO `etatstaches` (`IdEtat`, `DescEtat`) VALUES
 (1, 'A faire'),
 (2, 'En cours'),
 (3, 'Terminé et TestUnitaire réalisé'),
@@ -76,7 +75,7 @@ CREATE TABLE `idees_bac_a_sable` (
 
 CREATE TABLE `prioritestaches` (
   `idPriorite` tinyint(1) NOT NULL,
-  `Priorite` varchar(15) NOT NULL,
+  `DescPriorite` varchar(15) NOT NULL,
   `valPriorite` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -84,7 +83,7 @@ CREATE TABLE `prioritestaches` (
 -- Déchargement des données de la table `prioritestaches`
 --
 
-INSERT INTO `prioritestaches` (`idPriorite`, `Priorite`, `valPriorite`) VALUES
+INSERT INTO `prioritestaches` (`idPriorite`, `DescPriorite`, `valPriorite`) VALUES
 (1, '1', 1),
 (2, '2', 2),
 (3, '3', 3),
@@ -102,9 +101,21 @@ INSERT INTO `prioritestaches` (`idPriorite`, `Priorite`, `valPriorite`) VALUES
 --
 
 CREATE TABLE `roles` (
-  `IdR` smallint(6) NOT NULL,
+  `IdR` varchar(6) NOT NULL,
   `DescR` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `roles`
+--
+
+INSERT INTO `roles` (`IdR`, `DescR`) VALUES
+('PO', 'Product Owner'),
+('RefDev', 'Référent Dev'),
+('RefUi', 'Référent UI'),
+('R_Anim', 'Référent Animation'),
+('R_Mode', 'Référent Modélisation'),
+('SM', 'Scrum Master');
 
 -- --------------------------------------------------------
 
@@ -114,7 +125,7 @@ CREATE TABLE `roles` (
 
 CREATE TABLE `rolesutilisateurprojet` (
   `IdU` smallint(6) NOT NULL,
-  `IdR` smallint(6) NOT NULL,
+  `IdR` varchar(6) NOT NULL,
   `IdEq` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -139,11 +150,12 @@ CREATE TABLE `sprintbacklog` (
 
 CREATE TABLE `sprints` (
   `IdS` smallint(6) NOT NULL,
-  `DateDEbS` date NOT NULL,
+  `DateDebS` date NOT NULL,
   `DateFinS` date NOT NULL,
   `RetrospectiveS` varchar(300) DEFAULT NULL,
-  `RevueDeSprint` varchar(300) DEFAULT NULL,
-  `IdEq` smallint(6) NOT NULL
+  `RevueS` varchar(300) DEFAULT NULL,
+  `IdEq` smallint(6) NOT NULL,
+  `VelociteEq` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -171,7 +183,7 @@ CREATE TABLE `utilisateurs` (
   `IdU` smallint(6) NOT NULL,
   `NomU` varchar(50) NOT NULL,
   `PrenomU` varchar(50) NOT NULL,
-  `MotDePAsseU` varchar(15) NOT NULL,
+  `MotDePasseU` varchar(15) NOT NULL,
   `SpecialiteU` enum('Développeur','Modeleur','Animateur','UI','IA','WebComm','Polyvalent') NOT NULL DEFAULT 'Polyvalent'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
