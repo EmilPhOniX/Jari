@@ -307,3 +307,32 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- TRIGGER Utilisateurs & SprintBackLog
+
+DELIMITER $$
+CREATE TRIGGER before_insert_sprintbacklog
+BEFORE INSERT ON sprintbacklog
+FOR EACH ROW
+BEGIN
+	-- Déclare une variable pour stocker l'équipe de la tâche
+	DECLARE id_equipe_tache INT;
+    
+    -- Stock l'id de l'équipe (via IdEq dans taches)
+    SELECT IdEq INTO id_equipe_tache
+    FROM taches
+    WHERE IdT = NEW.IdT;
+
+	-- Vérifie si l'utilisateur est bien lié à l'équipe de la tâche dans roleutilisateurprojet
+    IF NOT EXISTS (
+        SELECT 1
+        FROM rolesutilisateurprojet
+        WHERE IdU = NEW.IdU
+        AND IdEq = id_equipe_tache
+    ) THEN
+        -- Si l'utilisateur n'est pas dans l'équipe
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Erreur : L\'utilisateur n\'est pas lié à l\'équipe associée à cette tâche.';
+    END IF;
+END $$
+DELIMITER ;
