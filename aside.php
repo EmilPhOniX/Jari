@@ -10,7 +10,6 @@
     <header>
         <div id="mainHeader" style="display: flex; align-items: center;">
             <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-            <h1 style="margin-left: 50px;">Scrum Master</h1>
         </div>
     </header>
 
