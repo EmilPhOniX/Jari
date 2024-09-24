@@ -1,11 +1,6 @@
 <?php
-session_start();
-try {
-    $bdd = new PDO('mysql:host=localhost;dbname=projetsql;charset=utf8mb4', 'root', '');
-    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+include 'config.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer les valeurs du formulaire
     $nom = $_POST['nom'] ?? null;
@@ -32,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $insertUser->execute([$newId, $nom, $prenom, $mdp_hash]);
 
         $_SESSION['success_message'] = "Enregistré avec succès !";
-        header("Location: Connexionbdd.php");
+        header("Location: Connexion.php");
         exit();
     }
 }
