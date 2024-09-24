@@ -20,45 +20,6 @@
         <a href="#">Utilisateurs</a>
         <a href="#">Sprint</a>
         <a href="#">Tâches</a>
-    </div>
-
-
-    <div id="mainContent">
-        <h2>Projets</h2>
-        <table>
-            <tr>
-                <th>Id</th>
-                <th>Nom Projet</th>
-                <th>Description</th>
-                <th>Date de début</th>
-                <th>Scrum master</th>
-                <th>Product owner</th>
-                <th>Equipe</th>
-                <th>Actions</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Projet 1</td>
-                <td>Description 1</td>
-                <td>Client 1</td>
-                <td>Scrum master 1</td>
-                <td>Product owner 1</td>
-                <td>Equipe 1</td>
-                <td><button>Modifier</button><button>Supprimer</button></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Projet 2</td>
-                <td>Description 2</td>
-                <td>Client 2</td>
-                <td>Scrum master 2</td>
-                <td>Product owner 2</td>
-                <td>Equipe 2</td>
-                <td><button>Modifier</button><button>Supprimer</button></td>
-            </tr>
-        </table>
-    </div>
-
     <script>
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";
