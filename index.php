@@ -1,5 +1,4 @@
 <?php 
-include "aside.php"; 
 include "header.php";
 include "config.php";
 
@@ -19,4 +18,7 @@ include "config.php";
     <link rel="stylesheet" href="style.css">
 </head>  
 
+<body>
+  
+</body>
 </html>
