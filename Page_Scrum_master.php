@@ -31,7 +31,7 @@
                 <th>Nom Projet</th>
                 <th>Description</th>
                 <th>Date de début</th>
-                <th>Scrum master</th>
+                <th>Membres</th>
                 <th>Product owner</th>
                 <th>Equipe</th>
                 <th>Actions</th>
