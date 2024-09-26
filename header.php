@@ -14,10 +14,11 @@
 
         <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="Page_Scrum_master.php">Projets</a>
+        <a href="#">Projets</a>
         <a href="#">Utilisateurs</a>
         <a href="#">Sprint</a>
         <a href="#">Tâches</a>
+        <a href="Page_Scrum_master.php">Scum Master</a>
         <?php
             include "config.php"; 
             if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true):
