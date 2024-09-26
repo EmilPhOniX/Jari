@@ -52,7 +52,7 @@
     </div>
     
     <div id="center">
-        <a href="index.php"> <h1>JARI</h1> </a>
+        <a href="index.php"> <h1 style=" margin-left: 50px;">JARI</h1> </a>
     </div>
 
         
