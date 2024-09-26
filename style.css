@@ -16,7 +16,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #d20f0f; 
+    background-color: #1c0fd2; 
     z-index: 1000;
 }
 
@@ -29,9 +29,7 @@ a {
     align-items: center;
 }
 
-#center {
-    
-}
+
 
 #logoLDB {
     height: 50px;
