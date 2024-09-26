@@ -1,33 +1,31 @@
 <?php
+session_start();
 include 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Récupérer les valeurs du formulaire
     $nom = $_POST['nom'] ?? null;
-    $prenom = $_POST['prenom'] ?? null;
     $mdp = $_POST['mdp'] ?? null;
-    $mdp_hash = password_hash($mdp, PASSWORD_DEFAULT);
 
-    // l'autoincrement est pas dans la base (yes) donc j'incrémente comme un porc
-    $lastIdQuery = $bdd->query('SELECT MAX(IdU) AS max_id FROM utilisateurs');
-    $lastIdResult = $lastIdQuery->fetch();
-    $newId = $lastIdResult['max_id'] + 1;
+    if (empty($nom) || empty($mdp)) {
+        $_SESSION['error_message'] = "Nom et mot de passe requis.";
+        header("Location: connexion.php");
+        exit();
+    }
 
-    // On prépare la requête  en vérifiant que les champs sont remplis et que le pseudo n'existe pas déjà
-    $checkUser = $bdd->prepare('SELECT * FROM utilisateurs WHERE NomU = ? OR PrenomU = ?');
-    $checkUser->execute([$nom, $prenom]);
-    $userExists = $checkUser->fetch();
+    // Vérifier si l'utilisateur existe et récupérer son mot de passe haché
+    $query = $bdd->prepare('SELECT IdU, MotDePasseU FROM utilisateurs WHERE NomU = ?');
+    $query->execute([$nom]);
+    $user = $query->fetch();
 
-    if ($userExists) {
-        header("Location: inscription.php?error=pseudo_used");
-        $_SESSION['error_message'] = "Nom ou prénom déjà utilisé !";
+    if ($user && password_verify($mdp, $user['MotDePasseU'])) {
+        // Les informations sont correctes, connecter l'utilisateur
+        $_SESSION['user_id'] = $user['IdU'];
+        $_SESSION['user_name'] = $nom;
+        header("Location: index.php");
         exit();
     } else {
-        $insertUser = $bdd->prepare('INSERT INTO utilisateurs (IdU, NomU, PrenomU, MotDePAsseU) VALUES (?, ?, ?, ?)');
-        $insertUser->execute([$newId, $nom, $prenom, $mdp_hash]);
-
-        $_SESSION['success_message'] = "Enregistré avec succès !";
-        header("Location: Connexion.php");
+        $_SESSION['error_message'] = "Nom ou mot de passe incorrect.";
+        header("Location: connexion.php");
         exit();
     }
 }
@@ -38,34 +36,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription - LDB</title>
-    <link rel="icon" type="image/vnd.icon" href="icon.png">
+    <title>Connexion - LDB</title>
     <link rel="stylesheet" href="style.css">
-</head>  
+</head>
 <body>
     <div class="container">
-        <h1>Inscription</h1>
+        <h1>Connexion</h1>
         <form action="" method="post">
             <input type="text" name="nom" placeholder="Nom" required>
-            <input type="text" name="prenom" placeholder="Prénom" required>
+            <input type="password" name="mdp" placeholder="Mot de passe" required>
 
             <?php
             if (isset($_SESSION['error_message'])) {
                 echo '<div class="error">' . $_SESSION['error_message'] . '</div>';
                 unset($_SESSION['error_message']);
             }
-
-            if (isset($_SESSION['success_message'])) {
-                echo '<div class="success">' . $_SESSION['success_message'] . '</div>';
-                unset($_SESSION['success_message']);
-            }
-			?>
-            <input type="password" name="mdp" placeholder="Mot de passe" required>
-            <input type="submit" name="envoyer" value="S'inscrire">
+            ?>
+            <input type="submit" name="envoyer" value="Se connecter">
         </form>
-        <p class="message">Déjà inscrit ? <a href="connexion.php">Connectez-vous ici</a></p>
+        <p class="message">Pas encore inscrit ? <a href="inscription.php">Inscrivez-vous ici</a></p>
     </div>
 </body>
 </html>
-
-
