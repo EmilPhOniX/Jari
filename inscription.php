@@ -42,14 +42,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // On prépare la requête  en vérifiant que les champs sont remplis et que le pseudo n'existe pas déjà
     $checkUser = $mysqli->prepare('SELECT * FROM utilisateurs WHERE NomU = ? OR PrenomU = ?');
     $checkUser->execute([$nom, $prenom]);
-    $userExists = $checkUser->fetch_assoc();
+    echo "passe";
+    $userExists = $checkUser->fetch(); // on a la ligne problème  I C I
+    echo "passe pas";
+
+
+    
 
     if ($userExists) {
         header("Location: inscription.php?error=pseudo_used");
         $_SESSION['error_message'] = "Nom ou prénom déjà utilisé !";
         exit();
     } else {
- $insertUser = $bdd->prepare('INSERT INTO utilisateurs (IdU, NomU, PrenomU, MotDePAsseU) VALUES (?, ?, ?, ?)');
+        $insertUser = $mysqli->prepare('INSERT INTO utilisateurs (IdU, NomU, PrenomU, MotDePAsseU) VALUES (?, ?, ?, ?)');
         $insertUser->execute([$newId, $nom, $prenom, $mdp_hash]);
 
         $_SESSION['success_message'] = "Enregistré avec succès !";
@@ -64,19 +69,19 @@ else echo "hjkhkjhkj";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription - LDB</title>
+    <title>Inscription </title>
     <link rel="icon" type="image/vnd.icon" href="icon.png">
     <link rel="stylesheet" href="style.css">
 </head>  
 <body>
+
     <div class="container">
         <h1>Inscription</h1>
         <form action="" method="post">
             <input type="text" name="nom" placeholder="Nom" required>
             <input type="text" name="prenom" placeholder="Prénom" required>
 
-
-<?php
+            <?php
             if (isset($_SESSION['error_message'])) {
                 echo '<div class="error">' . $_SESSION['error_message'] . '</div>';
                 unset($_SESSION['error_message']);
@@ -89,11 +94,6 @@ else echo "hjkhkjhkj";
 
             ?>
 
-    <div class="container">
-        <h1>Inscription</h1>
-        <form action="" method="post">
-            <input type="text" name="nom" placeholder="Nom" required>
-            <input type="text" name="prenom" placeholder="Prénom" required>
             <input type="password" name="mdp" placeholder="Mot de passe" required>
             <input type="submit" name="envoyer" value="S'inscrire">
         </form>

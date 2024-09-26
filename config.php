@@ -26,7 +26,7 @@ if ( $mysqli->connect_errno ) {
 
     exit();
     }
-    // echo '<p>Connexion réussie !</p>';  
+    echo '<p>Connexion réussie !</p>';  
 ?>
 
 
