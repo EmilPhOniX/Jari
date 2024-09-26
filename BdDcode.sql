@@ -127,7 +127,8 @@ INSERT INTO `roles` (`IdR`, `DescR`) VALUES
 ('RefUi', 'Référent UI'),
 ('R_Anim', 'Référent Animation'),
 ('R_Mode', 'Référent Modélisation'),
-('SM', 'Scrum Master');
+('SM', 'Scrum Master'),
+('MA', 'Membre Actif');
 
 -- --------------------------------------------------------
 
@@ -239,10 +240,10 @@ ALTER TABLE `roles`
 -- Index pour la table `rolesutilisateurprojet`
 --
 ALTER TABLE `rolesutilisateurprojet`
-  ADD PRIMARY KEY (`IdR`,`IdEq`),
-  ADD KEY `IdR` (`IdR`),
+  ADD PRIMARY KEY (`IdU`,`IdEq`),
+  ADD KEY `FK_RoleUtil_Roles` (`IdR`),
   ADD KEY `IdEq` (`IdEq`),
-  ADD KEY `FK_RoleUtil_Utilisateurs` (`IdU`);
+  ADD KEY `IdU` (`IdU`);
 
 --
 -- Index pour la table `sprintbacklog`
