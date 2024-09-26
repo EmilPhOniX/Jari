@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,19 +9,7 @@
 <body>
 
 <?php
-session_start();
-
-$host = 'localhost';
-$dbname = 'projetsql';
-$user = 'root';
-$pass = ''; 
-try {
-    // Establish a connection with the database
-    $db = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+include "config.php";
 
 // Handle login
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -30,8 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Check if the user exists in the database
     $stmt = $db->prepare("SELECT * FROM utilisateurs WHERE PrenomU = :prenomU AND MotDePasseU = :motDePasseU");
+    $mdp_hash = password_hash($motDePasseU, PASSWORD_DEFAULT);
     $stmt->bindParam(':prenomU', $prenomU);
-    $stmt->bindParam(':motDePasseU', $motDePasseU);
+    $stmt->bindParam(':motDePasseU', $mdp_hash);
     $stmt->execute();
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -40,7 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Successful login
         $_SESSION['user_id'] = $user['idU'];
         $_SESSION['PrenomU'] = $user['PrenomU'];
-        header("Location: index.php"); // Redirect to the dashboard
+        $_SESSION['PrenomU'] = $user['PrenomU'];
+        header("Location: index.php"); 
         exit();
     } else {
         // Invalid login
@@ -52,10 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <header>
     <nav>
         <ul>
-            <li><a href="Connexion.php">Accueil</a></li>
+            <li><a href="index.php">Accueil</a></li>
         </ul>
     </nav>
-    <div>
+    <!-- <div>
         <?php if (isset($_SESSION['PrenomU'])): ?>
             <p>Connecté en tant que <?php echo htmlspecialchars($_SESSION['PrenomU']); ?></p>
             <a href="deconnexion.php">Déconnexion</a>
@@ -63,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <a href="Connexion.php">Connexion</a>
             <a href="inscription.php">Inscription</a>
         <?php endif; ?>
-    </div>
+    </div> -->
 </header>
 
 <h1>Connexion</h1>
@@ -73,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php endif; ?>
 
 <form action="Connexion.php" method="POST">
-    <label for="PrenomU">Nom d'utilisateur :</label>
+    <label for="PrenomU">Prénom d'utilisateur :</label>
     <input type="text" name="PrenomU" required>
     
     <label for="MotDePasseU">Mot de passe :</label>

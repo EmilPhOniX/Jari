@@ -1,7 +1,5 @@
-
 <?php
-include 'config.php';
-
+include "config.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer les valeurs du formulaire
     $nom = $_POST['nom'] ?? null;
@@ -24,21 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['error_message'] = "Nom ou prénom déjà utilisé !";
         exit();
     } else {
-        $insertUser = $bdd->prepare('INSERT INTO utilisateurs (IdU, NomU, PrenomU, MotDePAsseU) VALUES (?, ?, ?, ?)');
+ $insertUser = $bdd->prepare('INSERT INTO utilisateurs (IdU, NomU, PrenomU, MotDePAsseU) VALUES (?, ?, ?, ?)');
         $insertUser->execute([$newId, $nom, $prenom, $mdp_hash]);
+
         $_SESSION['success_message'] = "Enregistré avec succès !";
-        header("Location: Connexion.php");
+        header("Location: index.php");
         exit();
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription </title>
+    <title>Inscription - LDB</title>
     <link rel="icon" type="image/vnd.icon" href="icon.png">
     <link rel="stylesheet" href="style.css">
 </head>  
@@ -63,9 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="mdp" placeholder="Mot de passe" required>
             <input type="submit" name="envoyer" value="S'inscrire">
         </form>
-        <p class="message">Déjà inscrit ? <a href="Connexion.php">Connectez-vous ici</a></p>
+        <p class="message">Déjà inscrit ? <a href="connexion.php">Connectez-vous ici</a></p>
     </div>
 </body>
 </html>
-
-

@@ -22,9 +22,10 @@ $mysqli = @new mysqli("localhost", "root", "", "projetsql");
 if ( $mysqli->connect_errno ) {
     echo "Impossible de se connecter à MySQL: errNum=" . $mysqli->connect_errno .
     " errDesc=". $mysqli -> connect_error;
+    $mysqli->close(); 
+
     exit();
     }
-   $mysqli->close(); 
     // echo '<p>Connexion réussie !</p>';  
 ?>
 
