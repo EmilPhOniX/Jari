@@ -372,3 +372,28 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+-- TRIGGER Rôle Equipe
+
+DELIMITER $$
+
+CREATE TRIGGER before_insert_rolesutilisateurprojet
+BEFORE INSERT ON rolesutilisateurprojet
+FOR EACH ROW
+BEGIN
+    -- Vérifie si le rôle que l'on veut donner est soit PO, soit SM
+    IF NEW.IdR IN ('PO', 'SM') THEN
+        IF EXISTS (
+            SELECT 1
+            FROM rolesutilisateurprojet
+            WHERE IdEq = NEW.IdEq
+            AND IdR = NEW.IdR
+        ) THEN
+            -- Si le rôle (PO ou SM) est déjà attribué dans l'équipe
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = "Erreur : Ce rôle (PO ou SM) a déjà été attribué dans cette équipe.";
+        END IF;
+    END IF;
+END $$
+
+DELIMITER ;
