@@ -344,7 +344,30 @@ BEGIN
     ) THEN
         -- Si l'utilisateur n'est pas dans l'équipe
         SIGNAL SQLSTATE '45000' 
-        SET MESSAGE_TEXT = 'Erreur : L\'utilisateur n\'est pas lié à l\'équipe associée à cette tâche.';
+        SET MESSAGE_TEXT = "Erreur : L\'utilisateur n\'est pas lié à l\'équipe associée à cette tâche.";
     END IF;
 END $$
+DELIMITER ;
+
+-- TRIGGER Utilisateur & Bac à sable
+
+DELIMITER $$
+
+CREATE TRIGGER before_insert_bac_a_sable
+BEFORE INSERT ON idees_bac_a_sable
+FOR EACH ROW
+BEGIN
+	-- Vérifie si l'utilisateur est bien lié à l'équipe du bac à sable
+    IF NOT EXISTS (
+        SELECT 1
+        FROM rolesutilisateurprojet
+        WHERE IdU = NEW.IdU
+        AND IdEq = NEW.IdEq
+    ) THEN
+        -- Si l'utilisateur n'est pas dans l'équipe
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = "Erreur : L\'utilisateur n\'est pas lié à l\'équipe pour pouvoir donner une idée dans ce bac à sable.";
+    END IF;
+END $$
+
 DELIMITER ;
