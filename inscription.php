@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-<?php
-include "config.php";
-=======
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,7 +18,6 @@ include 'config.php'; ?>
 
 <?php
 
->>>>>>> Stashed changes
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer les valeurs du formulaire
     $nom = $_POST['nom'] ?? null;
@@ -55,25 +50,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['error_message'] = "Nom ou prénom déjà utilisé !";
         exit();
     } else {
-<<<<<<< Updated upstream
  $insertUser = $bdd->prepare('INSERT INTO utilisateurs (IdU, NomU, PrenomU, MotDePAsseU) VALUES (?, ?, ?, ?)');
-=======
-        $insertUser = $mysqli->prepare('INSERT INTO utilisateurs (IdU, NomU, PrenomU, MotDePAsseU) VALUES (?, ?, ?, ?)');
->>>>>>> Stashed changes
         $insertUser->execute([$newId, $nom, $prenom, $mdp_hash]);
 
         $_SESSION['success_message'] = "Enregistré avec succès !";
-<<<<<<< Updated upstream
         header("Location: index.php");
-=======
-        //header("Location: Connexion.php");
->>>>>>> Stashed changes
         exit();
     }
 }
 else echo "hjkhkjhkj";
 ?>
-<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -89,9 +75,6 @@ else echo "hjkhkjhkj";
         <form action="" method="post">
             <input type="text" name="nom" placeholder="Nom" required>
             <input type="text" name="prenom" placeholder="Prénom" required>
-=======
-
->>>>>>> Stashed changes
 
 
 <?php
