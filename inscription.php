@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // On prépare la requête  en vérifiant que les champs sont remplis et que le pseudo n'existe pas déjà
     $checkUser = $mysqli->prepare('SELECT * FROM utilisateurs WHERE NomU = ? OR PrenomU = ?');
     $checkUser->execute([$nom, $prenom]);
-    $userExists = $checkUser->fetch();
+    $userExists = $checkUser->fetch_assoc();
 
     if ($userExists) {
         header("Location: inscription.php?error=pseudo_used");

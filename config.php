@@ -26,13 +26,6 @@ if ( $mysqli->connect_errno ) {
 
     exit();
     }
-<<<<<<< Updated upstream
-=======
-    else  { echo "connexion réussie";
-
-}
-   //$mysqli->close(); 
->>>>>>> Stashed changes
     // echo '<p>Connexion réussie !</p>';  
 ?>
 
