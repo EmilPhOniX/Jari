@@ -22,6 +22,18 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
+DROP TABLE IF EXISTS idees_bac_a_sable;
+DROP TABLE IF EXISTS rolesutilisateurprojet;
+DROP TABLE IF EXISTS sprintbacklog;
+DROP TABLE IF EXISTS taches;
+DROP TABLE IF EXISTS utilisateurs;
+DROP TABLE IF EXISTS etatstaches;
+DROP TABLE IF EXISTS prioritestaches;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS sprints;
+DROP TABLE IF EXISTS equipesprj;
+-- --------------------------------------------------------
+
 
 --
 -- Structure de la table `equipesprj`
