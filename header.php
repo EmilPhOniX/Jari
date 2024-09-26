@@ -7,13 +7,7 @@
 </head>
 <body>
     <header>
-        <div id="center">
-            <a href="index.php">
-                <h1>JARI</h1>
-            </a>
-
-        </div>
-        <div id="end">
+    <div id="start">
 
         <div id="mainHeader" style="display: flex; align-items: center;">
         <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
@@ -24,7 +18,7 @@
         <a href="#">Utilisateurs</a>
         <a href="#">Sprint</a>
         <a href="#">Tâches</a>
-    <script>
+        <script>
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";
             document.getElementById("mainContent").style.marginLeft = "250px";
@@ -38,7 +32,13 @@
             document.getElementById("mainHeader").style.marginLeft = "0";
             document.body.style.backgroundColor = "white";
         }
-    </script>
+        </script>
+        </div>
+    </div>
+    
+    <div id="center">
+        <a href="index.php"> <h1>JARI</h1> </a>
+    </div>
 
         <?php
             include "config.php"; 
