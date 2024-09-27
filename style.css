@@ -5,6 +5,8 @@ body, header, #start {
 body {
     font-family: "Lexend", sans-serif;
     flex-direction: column;
+    height: 100%;
+    width: 100%;
     padding-top: 5%;
     background-color: #942c2c78; 
 }
@@ -13,6 +15,7 @@ header {
     justify-content: space-between;
     align-items: center;
     position: fixed;
+    height: auto;
     top: 0;
     left: 0;
     width: 100%;
@@ -42,14 +45,14 @@ a {
     width: 30px;
 }
 
-/* aside {
+ aside {
     position: fixed;
     width: 20%;
     height: 100%;
     background-color: #e0f2f1; 
     box-shadow: 10px 10px 10px #b2dfdb;
     overflow-y: auto;
-} */
+} 
 
 nav ul {
     padding-left: 15%;

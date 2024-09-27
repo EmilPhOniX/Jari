@@ -5,8 +5,7 @@
     <link rel="icon" type="image/vnd.icon" href="icon.png">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <header>
+<header>
     <div id="start">
     
         <div id="mainHeader" style="display: flex; align-items: right;">
@@ -54,9 +53,8 @@
     <div id="center">
         <a href="index.php"> <h1 style=" margin-left: 50px;">JARI</h1> </a>
     </div>
-
-        
-    
     </header>
+<body>
+    
 </body>
 </html>
