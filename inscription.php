@@ -1,9 +1,7 @@
-<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     
-
     <?php
 include 'config.php'; ?>
 
@@ -26,27 +24,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mdp = $_POST['mdp'] ?? null;
     $mdp_hash = password_hash($mdp, PASSWORD_DEFAULT);
 
-    echo  "ajout bdd ";
+    // echo  "ajout bdd ";
 
 
     // l'autoincrement est pas dans la base (yes) donc j'incrémente comme un porc
     $lastIdQuery = $mysqli->query('SELECT MAX(IdU) AS max_id FROM utilisateurs');
     if ($lastIdQuery) echo "req effectuée"; 
-    else echo "pb req select";
+    // else echo "pb req select";
     $row =$lastIdQuery->fetch_assoc() ; 
     //$lastIdResult = $lastIdQuery->fetch();
-    echo "fetch  effectuée" ; 
+    // echo "fetch  effectuée" ; 
     $newId = $row['max_id'] + 1;
 
 
-    echo  $newId;
+    // echo  $newId;
 
     // On prépare la requête  en vérifiant que les champs sont remplis et que le pseudo n'existe pas déjà
     $checkUser = $mysqli->prepare('SELECT * FROM utilisateurs WHERE NomU = ? OR PrenomU = ?');
     $checkUser->execute([$nom, $prenom]);
-    echo "passe";
-    $userExists = $checkUser->fetch(); // on a la ligne problème  I C I (ne pose plus problème)
-    echo "passe pas";
+    // echo "passe";
+    $userExists = $checkUser->fetch(); // on a la ligne problème  I C I
+    // echo "passe pas";
 
 
     
@@ -64,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 }
-else echo "hjkhkjhkj";
+// else echo "hjkhkjhkj";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -76,18 +74,14 @@ else echo "hjkhkjhkj";
     <link rel="stylesheet" href="style.css">
 </head>  
 <body>
-<<<<<<< Updated upstream
+        
 
     <div class="container">
         <h1>Inscription</h1>
         <form action="" method="post">
             <input type="text" name="nom" placeholder="Nom" required>
             <input type="text" name="prenom" placeholder="Prénom" required>
-
             <?php
-=======
-<?php
->>>>>>> Stashed changes
             if (isset($_SESSION['error_message'])) {
                 echo '<div class="error">' . $_SESSION['error_message'] . '</div>';
                 unset($_SESSION['error_message']);
@@ -99,4 +93,10 @@ else echo "hjkhkjhkj";
             }
 
             ?>
-
+            <input type="password" name="mdp" placeholder="Mot de passe" required>
+            <input type="submit" name="envoyer" value="S'inscrire">
+        </form>
+        <p class="message">Déjà inscrit ? <a href="connexion.php">Connectez-vous ici</a></p>
+    </div>
+</body>
+</html>
