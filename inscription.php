@@ -1,7 +1,11 @@
+<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
     <?php
 include 'config.php'; ?>
 
@@ -74,6 +78,7 @@ else echo "hjkhkjhkj";
     <link rel="stylesheet" href="style.css">
 </head>  
 <body>
+<<<<<<< Updated upstream
 
     <div class="container">
         <h1>Inscription</h1>
@@ -82,6 +87,9 @@ else echo "hjkhkjhkj";
             <input type="text" name="prenom" placeholder="Prénom" required>
 
             <?php
+=======
+<?php
+>>>>>>> Stashed changes
             if (isset($_SESSION['error_message'])) {
                 echo '<div class="error">' . $_SESSION['error_message'] . '</div>';
                 unset($_SESSION['error_message']);
@@ -94,6 +102,14 @@ else echo "hjkhkjhkj";
 
             ?>
 
+<<<<<<< Updated upstream
+=======
+    <div class="container">
+        <h1>Inscription</h1>
+        <form action="Connexion.php" method="post">
+            <input type="text" name="nom" placeholder="Nom" required>
+            <input type="text" name="prenom" placeholder="Prénom" required>
+>>>>>>> Stashed changes
             <input type="password" name="mdp" placeholder="Mot de passe" required>
             <input type="submit" name="envoyer" value="S'inscrire">
         </form>
