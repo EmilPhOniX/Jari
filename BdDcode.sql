@@ -317,6 +317,46 @@ ALTER TABLE `taches`
   ADD CONSTRAINT `FK_Taches_Priorite` FOREIGN KEY (`IdPriorite`) REFERENCES `prioritestaches` (`idPriorite`);
 COMMIT;
 
+--
+-- Creation de la table `VoterPP` (Voter planning Poker)
+--
+CREATE TABLE VoterPP (
+    IdU	smallint(6) NOT NULL,
+    IdT int(11) NOT NULL,
+    estimationCout enum('?','1','3','5','10','15','25','999') NOT NULL DEFAULT '?',
+    	CONSTRAINT pk_VoterPP PRIMARY KEY (idU, idT),
+    CONSTRAINT fk_VoterPP FOREIGN KEY (idU) REFERENCES utilisateurs(idU),
+    CONSTRAINT fk_VoterPP1 FOREIGN KEY (idT)REFERENCES taches(idT)
+);
+
+--
+-- Creation de la table `CoutsDeReference` (Pour planning Poker)
+--
+CREATE TABLE CoutsDeReference (
+	idC int(11) NOT NULL,
+	LibelleC VARCHAR(100) NOT NULL,
+	ValeurC int NOT NULL,
+	IdT int(11) NOT NULL,
+	IdU smallint(6) NOT NULL,
+		CONSTRAINT pk_CoutsdeReference PRIMARY KEY (idC),
+   	CONSTRAINT fk_CoutsdeReference FOREIGN KEY (IdT) REFERENCES taches(IdT),
+	CONSTRAINT fk_CoutsdeReference1 FOREIGN KEY (IdU) REFERENCES VoterPP(IdU)
+	
+);
+
+--
+-- Indique que le planning poker est en cours
+--
+ALTER TABLE `equipesprj`
+ADD `PP` BOOLEAN NOT NULL DEFAULT FALSE;
+
+--
+-- Mets VRAI à la tâche qui est en cours de vote
+--
+ALTER TABLE `taches`
+ADD `VotePP` BOOLEAN NOT NULL DEFAULT FALSE;
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
