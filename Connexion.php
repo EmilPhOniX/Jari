@@ -72,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <button type="submit">Se connecter</button>
 </form>
 
-<p>Pas encore inscrit ? <a href="inscription.php">S'inscrire ici</a></p>
 
 </body>
 </html>
