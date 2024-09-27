@@ -285,3 +285,15 @@ body {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
 }
+
+.card-object {
+    color: #FFF;
+    display: block;
+    float: left;
+    position: absolute;
+    top: 6%;
+    left: 6%;
+    width: 88%;
+    height: 88%;
+    transform-style: preserve-3d;
+}

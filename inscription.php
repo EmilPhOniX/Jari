@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $checkUser = $mysqli->prepare('SELECT * FROM utilisateurs WHERE NomU = ? OR PrenomU = ?');
     $checkUser->execute([$nom, $prenom]);
     echo "passe";
-    $userExists = $checkUser->fetch(); // on a la ligne problème  I C I
+    $userExists = $checkUser->fetch(); // on a la ligne problème  I C I (ne pose plus problème)
     echo "passe pas";
 
 

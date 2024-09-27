@@ -1,44 +1,17 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
 
-</head>
 
-<body>
-<a href="index.php">Accueil</a>
+<!-- 
 
-</body>
-</html>
 
-<?php
-// Connexion à la base de données
-$host = '127.0.0.1';
-$dbname = 'projetsql';
-$username = 'root';
-$password = '';
+ A GARDER ABSOLUMENT ICI POUR LA PAGE SCRUMMASTER  
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erreur de connexion : " . $e->getMessage());
-}
 
-// Récupérer l'ID de l'utilisateur connecté (Scrum Master)
- $idU = 1; // Remplacer par l'ID réel du Scrum Master connecté (via session ou autre)
 
- // Vérifier si l'utilisateur est bien Scrum Master dans une équipe
- $query = $pdo->prepare("
-     SELECT equipesprj.IdEq, NomEq 
-     FROM rolesutilisateurprojet 
-    JOIN equipesprj ON rolesutilisateurprojet.IdEq = equipesprj.IdEq 
-    WHERE IdU = :idU AND IdR = 'SM'
- ");
- $query->execute(['idU' => $idU]);
-$equipes = $query->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
+ 
 
 if (!$equipes) {
      die("Vous n'êtes Scrum Master dans aucune équipe.");
@@ -199,4 +172,4 @@ foreach ($equipes as $equipe) {
         echo "<p>Aucun sprint trouvé pour cette équipe.</p>";
     }
 }
-?>
+?> -->
