@@ -437,3 +437,6 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+ INSERT INTO utilisateurs
+VALUES (1,'SAUVAGE','Vincent','1234','UI');
