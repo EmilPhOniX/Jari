@@ -344,6 +344,19 @@ CREATE TABLE CoutsDeReference (
 	
 );
 
+--
+-- Indique que le planning poker est en cours
+--
+ALTER TABLE `equipesprj`
+ADD `PP` BOOLEAN NOT NULL DEFAULT FALSE;
+
+--
+-- Mets VRAI à la tâche qui est en cours de vote
+--
+ALTER TABLE `taches`
+ADD `VotePP` BOOLEAN NOT NULL DEFAULT FALSE;
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
