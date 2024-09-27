@@ -3,9 +3,7 @@
 <html lang="fr">
 <head>
     
-=======
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
+
     <?php
 include 'config.php'; ?>
 
@@ -102,18 +100,3 @@ else echo "hjkhkjhkj";
 
             ?>
 
-<<<<<<< Updated upstream
-=======
-    <div class="container">
-        <h1>Inscription</h1>
-        <form action="Connexion.php" method="post">
-            <input type="text" name="nom" placeholder="Nom" required>
-            <input type="text" name="prenom" placeholder="Prénom" required>
->>>>>>> Stashed changes
-            <input type="password" name="mdp" placeholder="Mot de passe" required>
-            <input type="submit" name="envoyer" value="S'inscrire">
-        </form>
-        <p class="message">Déjà inscrit ? <a href="connexion.php">Connectez-vous ici</a></p>
-    </div>
-</body>
-</html>
