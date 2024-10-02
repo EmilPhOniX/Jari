@@ -1,36 +1,47 @@
 <?php
 include "config.php";
 
-
-// Handle login
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $prenomU = $_POST['PrenomU'];
     $motDePasseU = $_POST['MotDePasseU'];
-    // Check if the user exists in the database
-    //$stmt = $db->prepare("SELECT * FROM utilisateurs WHERE PrenomU = :prenomU AND MotDePasseU = :motDePasseU");
-    //$stmt = $mysqli->prepare("SELECT count(*) as nb FROM utilisateurs WHERE PrenomU = 1 AND MotDePasseU = 1");
     
-    $mdp_hash = password_hash($motDePasseU, PASSWORD_DEFAULT);
-    $req = "SELECT count(*) as nb FROM utilisateurs WHERE PrenomU = '$prenomU' AND MotDePasseU = '$mdp_hash'";
-    $resreq= $mysqli->query($req);
-    $user = $resreq->fetch_array(MYSQLI_NUM);
-    echo "nb";
- echo $user[0];
+    // Requête SQL avec une requête préparée pour éviter les injections SQL
+    $stmt = $mysqli->prepare("SELECT idU, PrenomU, MotDePasseU FROM utilisateurs WHERE PrenomU = ?");
+    $stmt->bind_param("s", $prenomU);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    
 
-    if ($user) {
-        echo "jhjkhkjhkj"
-;        // Successful login
+    var_dump($user);
+
+
+
+    // Vérifier si l'utilisateur existe et que le mot de passe est correct
+    if ($user && password_verify($motDePasseU, $user['MotDePasseU'])) {
+        // CETTE LIGNE PUE LA MERDE
+
+
+
+        // Connexion réussie
         $_SESSION['user_id'] = $user['idU'];
         $_SESSION['PrenomU'] = $user['PrenomU'];
-        $_SESSION['PrenomU'] = $user['PrenomU'];
+        
+        // Redirection vers la page d'accueil après la connexion
         header("Location: index.php"); 
         exit();
     } else {
         // Invalid login
         $error = "Nom d'utilisateur ou mot de passe incorrect.";
     }
+    var_dump($motDePasseU); // Mot de passe saisi
+    var_dump(password_verify($motDePasseU, $user['MotDePasseU']));
+    var_dump($user['MotDePasseU']); // Mot de passe hashé
 }
-?>
+?> 
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -40,21 +51,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Connexion</title>
 </head>
 <body>
-<header>
-    <!-- <div>
+<!-- <header>
+     <div>
         <?php if (isset($_SESSION['PrenomU'])): ?>
             <p>Connecté en tant que <?php echo htmlspecialchars($_SESSION['PrenomU']); ?></p>
             <a href="deconnexion.php">Déconnexion</a>
         <?php else: ?>
             <a href="Connexion.php">Connexion</a>
-            <a href="inscription.php">Inscription</a>
         <?php endif; ?>
-    </div> -->
-</header>
+    </div> 
+</header> -->
 
 <?php if (isset($error)): ?>
     <p style="color:red;"><?php echo $error; ?></p>
 <?php endif; ?>
+
+
+
 <div class="container">
         <h1>Connexion</h1>
         <form action="Connexion.php" method="POST">
@@ -64,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="MotDePasseU">Mot de passe :</label>
             <input type="password" name="MotDePasseU" required>
     
-        <button type="submit">Se connecter</button>
+            <input type="submit" name="envoyer" value="Se connecter">
         </form>
 </div>
 
