@@ -1,6 +1,4 @@
-
 <?php
-error_reporting(0);
 // Vérification si une session est déjà démarrée
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -13,20 +11,14 @@ if (isset($_SESSION['success_message'])) {
     unset($_SESSION['success_message']);
 }
 
-error_reporting(0); 
-// echo '<p>Connection à la base de données </p>';
-// Connexion à la base de données
-mysqli_report(MYSQLI_REPORT_OFF);
-$mysqli = @new mysqli("localhost", "root", "", "projetsql");
+// Connexion à la base de données avec MySQLi
+$mysqli = new mysqli('localhost', 'root', '', 'projetsql');
 
-if ( $mysqli->connect_errno ) {
-    echo "Impossible de se connecter à MySQL: errNum=" . $mysqli->connect_errno .
-    " errDesc=". $mysqli -> connect_error;
-    $mysqli->close(); 
+// Vérification de la connexion
+if ($mysqli->connect_error) {
+    exit("Echec de la connexion : " . $mysqli->connect_error);
+}
 
-    exit();
-    }
-    echo '<p>Connexion réussie !</p>';  
+// Si vous souhaitez activer le mode rapport d'erreur
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 ?>
-
-

@@ -1,21 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    
+ 
     <?php
-include 'config.php'; ?>
-
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription </title>
-    <link rel="icon" type="image/vnd.icon" href="icon.png">
-    <link rel="stylesheet" href="style.css">
-</head>  
-<body>
-
-
-<?php
+include 'config.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer les valeurs du formulaire
