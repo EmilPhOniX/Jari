@@ -196,7 +196,7 @@ CREATE TABLE `utilisateurs` (
   `IdU` smallint(6) NOT NULL,
   `NomU` varchar(50) NOT NULL,
   `PrenomU` varchar(50) NOT NULL,
-  `MotDePasseU` varchar(15) NOT NULL,
+  `MotDePasseU` varchar(255) NOT NULL,
   `SpecialiteU` enum('Développeur','Modeleur','Animateur','UI','IA','WebComm','Polyvalent') NOT NULL DEFAULT 'Polyvalent'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
