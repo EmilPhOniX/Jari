@@ -1,44 +1,43 @@
 <?php
 include "config.php";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $prenomU = $_POST['PrenomU'];
-    $motDePasseU = $_POST['MotDePasseU'];
-    
-    // Requête SQL avec une requête préparée pour éviter les injections SQL
-    $stmt = $mysqli->prepare("SELECT idU, PrenomU, MotDePasseU FROM utilisateurs WHERE PrenomU = ?");
-    $stmt->bind_param("s", $prenomU);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-    
-
-    var_dump($user);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupérer les valeurs du formulaire
+    $prenom = isset($_POST['PrenomU']) ? $_POST['PrenomU'] : null;
+    $mdp = isset($_POST['MotDePasseU']) ? $_POST['MotDePasseU'] : null;
 
 
+    // Vérification si les champs sont remplis
+    if ($prenom && $mdp) {
+        // Préparer une requête pour récupérer l'utilisateur
+        $stmt = $mysqli->prepare('SELECT * FROM utilisateurs WHERE PrenomU = ?');
+        $stmt->bind_param('s', $prenom);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        var_dump($mdp); // Mot de passe saisi
+        var_dump(password_verify($mdp, $user['MotDePasseU']));
+        var_dump($user['MotDePasseU']); // Mot de passe hashé
 
-    // Vérifier si l'utilisateur existe et que le mot de passe est correct
-    if ($user && password_verify($motDePasseU, $user['MotDePasseU'])) {
-        // CETTE LIGNE PUE LA MERDE
-
-
-
-        // Connexion réussie
-        $_SESSION['user_id'] = $user['idU'];
-        $_SESSION['PrenomU'] = $user['PrenomU'];
-        
-        // Redirection vers la page d'accueil après la connexion
-        header("Location: index.php"); 
-        exit();
+        if ($user) {
+            // Vérifier le mot de passe
+            if (password_verify($mdp, $user['MotDePasseU'])) {
+                // Démarrer la session utilisateur et rediriger vers la page d'accueil
+                $_SESSION['PrenomU'] = $user['PrenomU'];
+                $_SESSION['IdU'] = $user['IdU'];
+                header("Location: index.php");
+                exit();
+            } else {
+                $error = "Mot de passe incorrect";
+            }
+        } else {
+            $error = "Utilisateur introuvable";
+        }
     } else {
-        // Invalid login
-        $error = "Nom d'utilisateur ou mot de passe incorrect.";
+        $error = "Veuillez remplir tous les champs";
     }
-    var_dump($motDePasseU); // Mot de passe saisi
-    var_dump(password_verify($motDePasseU, $user['MotDePasseU']));
-    var_dump($user['MotDePasseU']); // Mot de passe hashé
 }
-?> 
+?>
 
 
 
