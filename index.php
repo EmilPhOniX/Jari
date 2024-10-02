@@ -2,10 +2,10 @@
 include "header.php";
 include "config.php";
 
-if (!isset($_SESSION['idUser'])) {
-    header("Location: connexion.php");
-    exit();
-}
+// if (!isset($_SESSION['idUser'])) {
+    //header("Location: connexion.php");
+    //exit();
+//}
 
 ?>
 
