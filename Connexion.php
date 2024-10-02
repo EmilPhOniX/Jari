@@ -1,32 +1,25 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Connexion</title>
-</head>
-<body>
-
 <?php
 include "config.php";
+
 
 // Handle login
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $prenomU = $_POST['PrenomU'];
     $motDePasseU = $_POST['MotDePasseU'];
-
     // Check if the user exists in the database
-    $stmt = $db->prepare("SELECT * FROM utilisateurs WHERE PrenomU = :prenomU AND MotDePasseU = :motDePasseU");
+    //$stmt = $db->prepare("SELECT * FROM utilisateurs WHERE PrenomU = :prenomU AND MotDePasseU = :motDePasseU");
+    //$stmt = $mysqli->prepare("SELECT count(*) as nb FROM utilisateurs WHERE PrenomU = 1 AND MotDePasseU = 1");
+    
     $mdp_hash = password_hash($motDePasseU, PASSWORD_DEFAULT);
-    $stmt->bindParam(':prenomU', $prenomU);
-    $stmt->bindParam(':motDePasseU', $mdp_hash);
-    $stmt->execute();
-
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $req = "SELECT count(*) as nb FROM utilisateurs WHERE PrenomU = '$prenomU' AND MotDePasseU = '$mdp_hash'";
+    $resreq= $mysqli->query($req);
+    $user = $resreq->fetch_array(MYSQLI_NUM);
+    echo "nb";
+ echo $user[0];
 
     if ($user) {
-        // Successful login
+        echo "jhjkhkjhkj"
+;        // Successful login
         $_SESSION['user_id'] = $user['idU'];
         $_SESSION['PrenomU'] = $user['PrenomU'];
         $_SESSION['PrenomU'] = $user['PrenomU'];
@@ -38,13 +31,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Connexion</title>
+</head>
+<body>
 <header>
-    <nav>
-        <ul>
-            <li><a href="index.php">Accueil</a></li>
-        </ul>
-    </nav>
     <!-- <div>
         <?php if (isset($_SESSION['PrenomU'])): ?>
             <p>Connecté en tant que <?php echo htmlspecialchars($_SESSION['PrenomU']); ?></p>
@@ -56,23 +52,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div> -->
 </header>
 
-<h1>Connexion</h1>
-
 <?php if (isset($error)): ?>
     <p style="color:red;"><?php echo $error; ?></p>
 <?php endif; ?>
-
-<form action="Connexion.php" method="POST">
-    <label for="PrenomU">Prénom d'utilisateur :</label>
-    <input type="text" name="PrenomU" required>
+<div class="container">
+        <h1>Connexion</h1>
+        <form action="Connexion.php" method="POST">
+            <label for="PrenomU">Prénom d'utilisateur :</label>
+            <input type="text" name="PrenomU" required>
     
-    <label for="MotDePasseU">Mot de passe :</label>
-    <input type="password" name="MotDePasseU" required>
+            <label for="MotDePasseU">Mot de passe :</label>
+            <input type="password" name="MotDePasseU" required>
     
-    <button type="submit">Se connecter</button>
-</form>
+        <button type="submit">Se connecter</button>
+        </form>
+</div>
 
-<p>Pas encore inscrit ? <a href="inscription.php">S'inscrire ici</a></p>
 
 </body>
 </html>
