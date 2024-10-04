@@ -12,10 +12,10 @@ $query = "SELECT
             u2.NomU AS ProductOwner,
             p.NomEq AS Equipe
           FROM equipesprj p
-          JOIN rolesutilisateurprojet rup1 ON rup1.IdEq = p.IdEq AND rup1.IdR = 'SM'
-          JOIN utilisateurs u ON u.IdU = rup1.IdU
-          JOIN rolesutilisateurprojet rup2 ON rup2.IdEq = p.IdEq AND rup2.IdR = 'PO'
-          JOIN utilisateurs u2 ON u2.IdU = rup2.IdU";
+          LEFT JOIN rolesutilisateurprojet rup1 ON rup1.IdEq = p.IdEq AND rup1.IdR = 'SM'
+          LEFT JOIN utilisateurs u ON u.IdU = rup1.IdU
+          LEFT JOIN rolesutilisateurprojet rup2 ON rup2.IdEq = p.IdEq AND rup2.IdR = 'PO'
+          LEFT JOIN utilisateurs u2 ON u2.IdU = rup2.IdU";
 
 // Exécution de la requête
 $result = $mysqli->query($query);
@@ -80,12 +80,12 @@ $mysqli->close();
     <thead>
         <tr>
             <th>Id</th>
-            <th>Nom</th>
+            <th>Nom Projet</th>
             <th>Description</th>
             <th>Client</th>
             <th>Scrum master</th>
             <th>Product owner</th>
-            <th>Equipe</th>
+            <th>Nom Equipe</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -101,8 +101,7 @@ $mysqli->close();
                     <td><?= htmlspecialchars($project['ProductOwner']) ?></td>
                     <td><?= htmlspecialchars($project['Equipe']) ?></td>
                     <td class="action-buttons">
-                        <a href="edit.php?id=<?= $project['Id'] ?>" class="btn">Modifier</a>
-                        <a href="delete.php?id=<?= $project['Id'] ?>" class="btn btn-delete">Supprimer</a>
+                        <a href="Modifier.php?id=<?= $project['Id'] ?>" class="btn">Modifier</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
