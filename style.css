@@ -76,7 +76,7 @@ input[type="submit"] {
 }
 
 input[type="submit"] {
-    background-color: #4c0000;
+    background-color: #5b1414;
     color: white;
     border: none;
     cursor: pointer;
@@ -88,7 +88,7 @@ input[type="submit"]:hover {
 
 .message {
     text-align: center;
-    color: #4c0000;
+    color: #4d002f;
     margin-top: 10px;
 }
 
