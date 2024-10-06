@@ -53,8 +53,8 @@ $mysqli->close();
             border: 1px solid #ddd;
         }
         th {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #181414;
+            color: #818181;
         }
         .action-buttons {
             display: flex;
