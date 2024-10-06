@@ -18,7 +18,7 @@ header {
     position: fixed;
     width: 100%;
     top: 0;
-    background-color: #1c0fd2;
+    background-color: #4c0000;
     z-index: 1000;
 }
 
@@ -76,7 +76,7 @@ input[type="submit"] {
 }
 
 input[type="submit"] {
-    background-color: #5b1414;
+    background-color: #4c0000;
     color: white;
     border: none;
     cursor: pointer;
@@ -88,7 +88,7 @@ input[type="submit"]:hover {
 
 .message {
     text-align: center;
-    color: #4d002f;
+    color: #4c0000;
     margin-top: 10px;
 }
 
