@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,6 +21,12 @@
         <a href="Projet.php">Projets</a>
         <a href="sprintbacklog.php">Sprintbacklog</a>
         <a href='deconnexion.php'>Déconnexion</a>
+        <?php 
+        if (isset($_SESSION['SpecialiteU']) && $_SESSION['SpecialiteU'] == "UI") {
+            echo "<a href='inscription.php'>Inscription</a>";
+        }
+        ?>
+        
         <script>
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";
@@ -42,7 +52,17 @@
             <img src="J_A_R_I_logo.png" id="logo"/> 
         </a>
     </div>
-    <div id="end"></div>    
+    <div id="end">
+        <div id="user">
+        <?php if (isset($_SESSION['PrenomU'])): ?>
+            <p>Connecté en tant que <?php echo htmlspecialchars($_SESSION['PrenomU']); ?></p>
+            <?php else: ?>
+            <a href="Connexion.php">Connexion</a>
+        <?php endif; 
+        // on arrive pas à trouver nom et prénom, et je comprends pas pourquoi
+        ?>
+        </div>
+    </div>    
     </header>
 </body>
 </html>

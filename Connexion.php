@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "config.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,7 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (password_verify($mdp, $user['MotDePasseU'])) {
                 // Démarrer la session utilisateur et rediriger vers la page d'accueil
                 $_SESSION['PrenomU'] = $user['PrenomU'];
+                $_SESSION['NomU'] = $user['NomU'];
                 $_SESSION['IdU'] = $user['IdU'];
+                $_SESSION['SpecialiteU'] = $user['SpecialiteU'];
                 header("Location: index.php");
                 exit();
             } else {
