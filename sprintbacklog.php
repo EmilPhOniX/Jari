@@ -11,8 +11,13 @@
     <?php
     include 'config.php';
 
-    // Requête pour récupérer les données du sprint backlog
-    $query = "SELECT * FROM sprintbacklog";
+    $query = "SELECT T.TitreT, S.idS, U.NomU, E.DescEtat
+        FROM sprintbacklog
+        NATURAL JOIN taches AS T
+        NATURAL JOIN sprints AS S
+        NATURAL JOIN utilisateurs AS U 
+        NATURAL JOIN etatstaches AS E";
+
     $result = $mysqli->query($query); // Utilisation de l'objet $mysqli pour exécuter la requête
 
     // Vérification si des résultats existent
@@ -21,15 +26,15 @@
         echo "<table border='1'>";
         while ($histo = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>" . $histo['IdT'] . "</td>";
-            echo "<td>" . $histo['IdS'] . "</td>";
-            echo "<td>" . $histo['IdU'] . "</td>";
-            echo "<td>" . $histo['IdEtat'] . "</td>";
+            echo "<td>" . $histo['T'] . "</td>";
+            echo "<td>" . $histo['S'] . "</td>";
+            echo "<td>" . $histo['U'] . "</td>";
+            echo "<td>" . $histo['E'] . "</td>";
             echo "</tr>";
         }
         echo "</table>";
     } else {
-        echo "<p>Aucun client enregistré pour le moment.</p>";
+        echo "<p>Aucun aucune log.</p>";
     }
     ?>
 
