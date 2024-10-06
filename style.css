@@ -18,7 +18,7 @@ header {
     position: fixed;
     width: 100%;
     top: 0;
-    background-color: #4c0000;
+    background-color: #8c0000;
     z-index: 1000;
 }
 
@@ -58,6 +58,7 @@ a {
 h1 {
     text-align: center;
     margin-bottom: 20px;
+    color : rgb(255, 208, 208);
 }
 
 .form-group {
