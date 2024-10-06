@@ -15,6 +15,7 @@
         <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="Projet.php">Projets</a>
+        <a href="sprintbacklog.php">Sprintbacklog</a>
         <a href='deconnexion.php'>Déconnexion</a>
         <script>
         function openNav() {
