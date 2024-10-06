@@ -36,7 +36,10 @@
     </div>
     
     <div id="center">
-        <a href="index.php"> <h1>JARI</h1> </a>
+        <a href="index.php"> 
+            <h1>JARI</h1> 
+            <img src="J_A_R_I_logo.png" id="logo"/> 
+        </a>
     </div>
     <div id="end"></div>    
     </header>

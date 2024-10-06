@@ -187,3 +187,19 @@ body {
     height: 88%;
     transform-style: preserve-3d;
 }
+
+#center {
+    display: flex;
+    align-items: center;
+}
+
+#center a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+#center #logo {
+    max-height: 50px;
+    margin-right: 10px; 
+}
