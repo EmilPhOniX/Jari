@@ -1,7 +1,7 @@
 <?php
 // Inclure le fichier config.php qui contient la connexion à la base de données
 require_once 'config.php';
-include 'header.php';
+ include 'header.php';
 
 // Requête pour récupérer les données du projet
 $query = "SELECT
@@ -38,6 +38,7 @@ $mysqli->close();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Projets</title>
     <style>
         table {

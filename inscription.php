@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="mdp" placeholder="Mot de passe" required>
             <input type="submit" name="envoyer" value="S'inscrire">
         </form>
-        <p class="message">Déjà inscrit ? <a href="connexion.php">Connectez-vous ici</a></p>
+        <p class="message">Retour à la page  <a href="index.php">d'accueil</a></p>
     </div>
 </body>
 </html>
