@@ -1,26 +1,53 @@
 <?php
 // Inclure le fichier config.php qui contient la connexion à la base de données
 require_once 'config.php';
- include 'header.php';
 
-// Requête pour récupérer les données du projet
-$query = "SELECT
-            p.IdEq AS Id, 
-            p.NomEq AS Nom,
-            'Description placeholder' AS Description, -- Remplacez par la colonne de description réelle si elle existe
-            u.NomU AS ScrumMaster,
-            u2.NomU AS ProductOwner,
-            p.NomEq AS Equipe
-          FROM equipesprj p
-          LEFT JOIN rolesutilisateurprojet rup1 ON rup1.IdEq = p.IdEq AND rup1.IdR = 'SM'
-          LEFT JOIN utilisateurs u ON u.IdU = rup1.IdU
-          LEFT JOIN rolesutilisateurprojet rup2 ON rup2.IdEq = p.IdEq AND rup2.IdR = 'PO'
-          LEFT JOIN utilisateurs u2 ON u2.IdU = rup2.IdU";
+// Démarrer la session
+session_start();
 
-// Exécution de la requête
-$result = $mysqli->query($query);
+// Récupérer l'ID utilisateur et le rôle de l'utilisateur connecté (exemple)
+$userId = $_SESSION['user_id']; // L'ID de l'utilisateur connecté
+$userRole = $_SESSION['user_role']; // Le rôle de l'utilisateur connecté (ex: 'UI' ou autre)
 
-// Vérifie si la requête a retourné des résultats
+// Vérifier si l'utilisateur a le rôle "UI" (admin)
+$isAdmin = ($userRole === 'UI');
+
+// Requête pour récupérer les projets auxquels l'utilisateur est affecté, ou tous les projets si c'est un admin
+$query = "
+    SELECT
+        p.IdEq AS Id, 
+        p.NomEq AS Nom,
+        'Description placeholder' AS Description, -- Remplacez par la colonne de description réelle si elle existe
+        u.NomU AS ScrumMaster,
+        u2.NomU AS ProductOwner,
+        p.NomEq AS Equipe
+    FROM equipesprj p
+    LEFT JOIN rolesutilisateurprojet rup1 ON rup1.IdEq = p.IdEq AND rup1.IdR = 'SM'
+    LEFT JOIN utilisateurs u ON u.IdU = rup1.IdU
+    LEFT JOIN rolesutilisateurprojet rup2 ON rup2.IdEq = p.IdEq AND rup2.IdR = 'PO'
+    LEFT JOIN utilisateurs u2 ON u2.IdU = rup2.IdU
+";
+
+// Si l'utilisateur n'est pas un admin, filtrer pour ne récupérer que les projets auxquels il est affecté
+if (!$isAdmin) {
+    $query .= "
+        JOIN rolesutilisateurprojet rup3 ON rup3.IdEq = p.IdEq AND rup3.IdU = ?
+    ";
+}
+
+// Préparer la requête
+$stmt = $mysqli->prepare($query);
+
+// Si l'utilisateur n'est pas admin, lier l'ID utilisateur au paramètre de la requête
+if (!$isAdmin) {
+    $stmt->bind_param("i", $userId);
+}
+
+// Exécuter la requête
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Vérifier si la requête a retourné des résultats
 if ($result->num_rows > 0) {
     // Récupération des projets sous forme de tableau
     $projects = $result->fetch_all(MYSQLI_ASSOC);
