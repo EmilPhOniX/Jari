@@ -1,6 +1,6 @@
 <?php
 // Inclure le fichier config.php qui contient la connexion à la base de données
-require_once 'config.php';
+include'config.php';
 
 // Démarrer la session
 session_start();
