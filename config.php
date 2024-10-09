@@ -13,7 +13,7 @@ if (isset($_SESSION['success_message'])) {
 
 // Connexion à la base de données avec MySQLi
 $mysqli = new mysqli('localhost', 'root', '', 'AgileTools');
-
+  
 // Vérification de la connexion
 if ($mysqli->connect_error) {
     exit("Echec de la connexion : " . $mysqli->connect_error);
