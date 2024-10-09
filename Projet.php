@@ -6,8 +6,8 @@ include'config.php';
 session_start();
 
 // Récupérer l'ID utilisateur et le rôle de l'utilisateur connecté (exemple)
-$userId = $_SESSION['user_id']; // L'ID de l'utilisateur connecté
-$userRole = $_SESSION['user_role']; // Le rôle de l'utilisateur connecté (ex: 'UI' ou autre)
+$userId = $_SESSION['IdU']; // L'ID de l'utilisateur connecté
+$userRole = $_SESSION['IdR']; // Le rôle de l'utilisateur connecté (ex: 'UI' ou autre)
 
 // Vérifier si l'utilisateur a le rôle "UI" (admin)
 $isAdmin = ($userRole === 'UI');
