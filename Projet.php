@@ -2,9 +2,6 @@
 // Inclure le fichier config.php qui contient la connexion à la base de données
 include'config.php';
 
-// Démarrer la session
-session_start();
-
 // Récupérer l'ID utilisateur et le rôle de l'utilisateur connecté (exemple)
 $userId = $_SESSION['IdU']; // L'ID de l'utilisateur connecté
 $userRole = $_SESSION['IdR']; // Le rôle de l'utilisateur connecté (ex: 'UI' ou autre)
