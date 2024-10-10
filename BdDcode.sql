@@ -437,3 +437,70 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+
+-- Insertion des utilisateurs (1 patron et 6 employés, avec les mots de passe modifiés)
+INSERT INTO `utilisateurs` (`IdU`, `NomU`, `PrenomU`, `MotDePasseU`, `SpecialiteU`) VALUES
+(1, 'admin', 'admin', '$2y$10$pHYan9fy0dXRj4a3PKqDb.CIAZMCuIiZbU8DsMLlqSt.j4YI6TZvq', 'Polyvalent'),
+(2, 'Dupont', 'Jean', '$2y$10$93AV54KQSGQRdXXAlO.pMeFq7zu5Un3/rZCWSfziOEOFKp.y7YIi6', 'Développeur'),
+(3, 'Durand', 'Marie', '$2y$10$93AV54KQSGQRdXXAlO.pMeFq7zu5Un3/rZCWSfziOEOFKp.y7YIi6', 'UI'),
+(4, 'Moreau', 'Paul', '$2y$10$93AV54KQSGQRdXXAlO.pMeFq7zu5Un3/rZCWSfziOEOFKp.y7YIi6', 'Développeur'),
+(5, 'Leroy', 'Sophie', '$2y$10$93AV54KQSGQRdXXAlO.pMeFq7zu5Un3/rZCWSfziOEOFKp.y7YIi6', 'Animateur'),
+(6, 'Martin', 'Jacques', '$2y$10$93AV54KQSGQRdXXAlO.pMeFq7zu5Un3/rZCWSfziOEOFKp.y7YIi6', 'Modeleur'),
+(7, 'Bernard', 'Louise', '$2y$10$93AV54KQSGQRdXXAlO.pMeFq7zu5Un3/rZCWSfziOEOFKp.y7YIi6', 'WebComm');
+
+-- Insertion des équipes (2 équipes de 4 employés)
+INSERT INTO `equipesprj` (`IdEq`, `NomEq`) VALUES
+(1, 'Equipe Alpha'),
+(2, 'Equipe Beta');
+
+-- Assignation des rôles aux utilisateurs dans les équipes
+INSERT INTO `rolesutilisateurprojet` (`IdU`, `IdR`, `IdEq`) VALUES
+(2, 'PO', 1), -- Jean Dupont, Product Owner équipe Alpha
+(3, 'SM', 1), -- Marie Durand, Scrum Master équipe Alpha
+(4, 'MA', 1), -- Paul Moreau, Membre Actif équipe Alpha
+(5, 'MA', 1), -- Sophie Leroy, Membre Actif équipe Alpha
+(6, 'PO', 2), -- Jacques Martin, Product Owner équipe Beta
+(7, 'SM', 2), -- Louise Bernard, Scrum Master équipe Beta
+(2, 'MA', 2), -- Jean Dupont, Membre Actif équipe Beta (travaille sur 2 projets)
+(3, 'MA', 2); -- Marie Durand, Membre Actif équipe Beta (travaille sur 2 projets)
+
+-- Insertion des projets (4 projets : 2 terminés, 2 en cours)
+INSERT INTO `sprints` (`IdS`, `DateDebS`, `DateFinS`, `RetrospectiveS`, `RevueS`, `IdEq`, `VelociteEq`) VALUES
+(1, '2024-01-01', '2024-03-01', 'Projet terminé avec succès', 'Projet livré', 1, 30), -- Projet terminé (équipe Alpha)
+(2, '2024-04-01', '2024-06-01', 'Projet terminé avec succès', 'Projet livré', 2, 28), -- Projet terminé (équipe Beta)
+(3, '2024-07-01', '2024-09-01', NULL, NULL, 1, 24), -- Projet en cours (80%)
+(4, '2024-07-01', '2024-09-01', NULL, NULL, 2, 6); -- Projet en cours (20%)
+
+-- Insertion des sprints pour les projets en cours (1 sprint terminé, 1 sprint non terminé)
+-- Sprints pour le projet en cours 80%
+INSERT INTO `sprints` (`IdS`, `DateDebS`, `DateFinS`, `RetrospectiveS`, `RevueS`, `IdEq`, `VelociteEq`) VALUES
+(5, '2024-09-01', '2024-09-30', 'Sprint terminé', 'Sprint review', 1, 20), -- Sprint terminé pour projet à 80%
+(6, '2024-10-01', '2024-11-01', NULL, NULL, 1, 0); -- Sprint non terminé pour projet à 80%
+
+-- Sprints pour le projet en cours 20%
+INSERT INTO `sprints` (`IdS`, `DateDebS`, `DateFinS`, `RetrospectiveS`, `RevueS`, `IdEq`, `VelociteEq`) VALUES
+(7, '2024-09-01', '2024-09-30', 'Sprint terminé', 'Sprint review', 2, 6), -- Sprint terminé pour projet à 20%
+(8, '2024-10-01', '2024-11-01', NULL, NULL, 2, 0); -- Sprint non terminé pour projet à 20%
+
+-- Insertion des tâches (par sprint, incluant leur état et priorité)
+-- Tâches du projet en cours 80% (Sprint terminé et en cours)
+INSERT INTO `taches` (`IdT`, `TitreT`, `UserStoryT`, `IdEq`, `CoutT`, `IdPriorite`) VALUES
+(1, 'Tâche 1 - Sprint 5', 'User Story 1', 1, '5', 2), -- Tâche en cours (Sprint terminé)
+(2, 'Tâche 2 - Sprint 6', 'User Story 2', 1, '10', 3); -- Tâche en cours (Sprint non terminé)
+
+-- Tâches du projet en cours 20% (Sprint terminé et en cours)
+INSERT INTO `taches` (`IdT`, `TitreT`, `UserStoryT`, `IdEq`, `CoutT`, `IdPriorite`) VALUES
+(3, 'Tâche 1 - Sprint 7', 'User Story 3', 2, '3', 4), -- Tâche en cours (Sprint terminé)
+(4, 'Tâche 2 - Sprint 8', 'User Story 4', 2, '15', 1); -- Tâche en cours (Sprint non terminé)
+
+-- Insertion dans le sprint backlog (assignation des tâches aux utilisateurs avec état)
+-- Assignation des tâches pour le projet à 80%
+INSERT INTO `sprintbacklog` (`IdT`, `IdS`, `IdU`, `IdEtat`) VALUES
+(1, 5, 2, 3), -- Tâche 1 (Sprint 5 terminé)
+(2, 6, 4, 2); -- Tâche 2 (Sprint 6 en cours)
+
+-- Assignation des tâches pour le projet à 20%
+INSERT INTO `sprintbacklog` (`IdT`, `IdS`, `IdU`, `IdEtat`) VALUES
+(3, 7, 6, 3), -- Tâche 1 (Sprint 7 terminé)
+(4, 8, 7, 2); -- Tâche 2 (Sprint 8 en cours)
