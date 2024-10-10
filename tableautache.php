@@ -10,7 +10,7 @@ if (!isset($_SESSION['IdU'])) {
 }
 
 // Récupérer les tâches à faire
-$query_tasks = "SELECT IdT, TitreT, UserStoryT, VotePP FROM taches WHERE IdEq = 1"; // Ici l'IdEq est à 1, à adapter à ton projet
+$query_tasks = "SELECT IdT, TitreT, UserStoryT, VotePP FROM taches"; // Ici l'IdEq est à 1, à adapter à ton projet
 $result_tasks = $mysqli->query($query_tasks);
 
 if ($result_tasks->num_rows > 0) {
